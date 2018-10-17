@@ -1,7 +1,0 @@
-void show_stu(int flag);
-void loadin();
-int add();
-int change();
-int delet();
-int search();
-int stu_info();
