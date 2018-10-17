@@ -1,0 +1,7 @@
+void show_cla(int flag);
+void loadin_cla();
+int add_cla();
+int search_cla();
+int delet_cla();
+int change_cla();
+int stu_cour();

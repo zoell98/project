@@ -1,0 +1,193 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+struct class
+{
+    int bh;
+    char mc[10];
+    char xz;
+    int xs;
+    int xf;
+    int yx_num;
+    int sx_num;
+}cla[100];
+int much;
+void show_cla(int flag)
+{
+	int i,j;
+	printf("%8s%10s%8s%8s%8s%8s%8s\n","NUMBER","LESSON","KIND","TIME","POINT","STUDENT","TOTAL");
+	if(flag == -1)
+	{
+		for(i=0;i<much;i++)
+		{
+			printf("%8d%10s%8c%8d%8d%8d%8d\n",cla[i].bh,cla[i].mc,cla[i].xz,cla[i].xs,cla[i].xf,cla[i].yx_num,cla[i].sx_num);	
+		}
+	}
+	else
+	{
+		printf("%8d%10s%8c%8d%8d%8d%8d\n",cla[i].bh,cla[i].mc,cla[i].xz,cla[i].xs,cla[i].xf,cla[i].yx_num,cla[i].sx_num);	
+	}
+}
+void loadin_cla()
+{
+	int i=0,j,num=0,n=0;
+	FILE *fp;
+	if((fp = fopen("/pro/myproject/moduleB/class.txt","r"))==NULL)
+	{
+		printf("File error!\n");
+		exit(0);
+	}
+	while(!feof(fp))
+	{
+		fscanf(fp,"%d %s %c %d %d %d %d",&cla[i].bh,cla[i].mc,&cla[i].xz,&cla[i].xs,
+			&cla[i].xf,&cla[i].yx_num,&cla[i].sx_num);
+		i++;
+	}
+	much=i-1;
+	show_cla(-1);
+	fclose(fp);
+}
+int add_cla()
+{
+	int i=much;
+	printf("please input course number:");
+	scanf("%d",&cla[i].bh);
+	printf("please input course name:");
+	scanf("%s",cla[i].mc);
+	getchar();
+	printf("please input course kind:");
+	scanf("%c",&cla[i].xz);
+	printf("please input course time:");
+	scanf("%d",&cla[i].xs);
+	printf("please input course sorce:");
+	scanf("%d",&cla[i].xf);
+	printf("please input course students:");
+	scanf("%d",&cla[i].yx_num);
+	printf("please input course total number:");
+	scanf("%d",&cla[i].sx_num);
+	much++;
+	show_cla(-1);
+	FILE *fp_a;
+	if((fp_a = fopen("class.txt","a")) == NULL)
+	{
+		printf("File error!\n");
+		exit(0);
+	}
+	fprintf(fp_a,"%8d %10s %8c %8d %8d %8d %8d",cla[i].bh,cla[i].mc,cla[i].xz,cla[i].xs,
+		cla[i].xf,cla[i].yx_num,cla[i].sx_num);
+	fclose(fp_a);
+}
+int search_cla()
+{
+	int i;
+	printf("\nPlease input the course NUMBER:");
+	int search_bh;
+	scanf("%d",&search_bh);
+	for(i=0;i<much;i++)
+	{
+		if(cla[i].bh == search_bh)
+			return i;
+	}
+	return -2;
+}
+int delet_cla()
+{
+	int delet_i,i,j;
+	delet_i=search_cla();
+	if(delet_i == -2)
+	{
+		printf("\nNot exist!\n");
+		return 0;
+	}
+	for(i=delet_i;i<much-1;i++)
+	{
+		cla[i]=cla[i+1];
+	}
+	much--;
+	show_cla(-1);
+	FILE *fp_w;
+	if((fp_w = fopen("class.txt","w")) == NULL)
+	{
+		printf("File error!\n");
+		exit(0);
+	}
+	for(i=0;i<much;i++)
+	{
+		fprintf(fp_w,"%8d %10s %8c %8d %8d %8d %8d\n",cla[i].bh,cla[i].mc,cla[i].xz,cla[i].xs,
+		cla[i].xf,cla[i].yx_num,cla[i].sx_num);
+	}
+	fclose(fp_w);
+	return 0;
+}
+int change_cla()
+{
+	int change_i,i;
+	change_i=search_cla();
+	if(change_i == -2)
+	{
+		printf("\nNot exist!\n");
+		return 0;
+	}
+	show_cla(change_i);
+	printf("please input course number:");
+	scanf("%d",&cla[change_i].bh);
+	printf("please input course name:");
+	scanf("%s",cla[change_i].mc);
+	getchar();
+	printf("please input course kind:");
+	scanf("%c",&cla[change_i].xz);
+	printf("please input course time:");
+	scanf("%d",&cla[change_i].xs);
+	printf("please input course sorce:");
+	scanf("%d",&cla[change_i].xf);
+	printf("please input course students:");
+	scanf("%d",&cla[change_i].yx_num);
+	printf("please input course total number:");
+	scanf("%d",&cla[change_i].sx_num);
+	show_cla(-1);
+	FILE *fp_w;
+	if((fp_w = fopen("class.txt","w")) == NULL)
+	{
+		printf("File error!\n");
+		exit(0);
+	}
+	for(i=0;i<much;i++)
+	{
+		fprintf(fp_w,"%8d %10s %8c %8d %8d %8d %8d\n",cla[i].bh,cla[i].mc,cla[i].xz,cla[i].xs,
+		cla[i].xf,cla[i].yx_num,cla[i].sx_num);
+	}
+	fclose(fp_w);
+	return 0;
+}
+int stu_cour()
+{
+	int select,flag;
+	loadin_cla();
+	while(select!=5)
+	{
+		printf("\n1.Add course information\n");
+		printf("\n2.Change course information\n");
+		printf("\n3.Delete course information\n");
+		printf("\n4.Search course information\n");
+		printf("\n5.Exit\n");
+		printf("\nPlease choose the function: ");
+		scanf("%d",&select);
+		if(select == 1)
+			add_cla();
+		else if(select == 2)
+			change_cla();
+		else if(select == 3)
+			delet_cla();
+		else if(select == 4)
+		{
+			flag=search_cla();
+			if(flag == -2)
+				printf("\nNot exist!\n");
+			else
+				show_cla(flag);
+		}
+		else if(select>5 || select<1)
+			printf("Input error! Please try again!\n");
+	}
+	return 0;
+}

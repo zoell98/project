@@ -1,0 +1,5 @@
+1 engilsh b 32 2 0 40
+2 math	  b 48 2 0 45
+3 chinese b 36 4 0 40
+4 history g 32 2 0 40
+5 japanese g 42 2 0 40 
